@@ -1,18 +1,7 @@
 import { Module, MiddlewaresConsumer, RequestMethod } from '@nestjs/common';
-import { EnsureLoggedIn } from './app.middleware';
-import { AppController } from './app.controller';
+import { UsersModule } from './api/user/user.module';
 
 @Module({
-    controllers: [AppController]
+    modules: [ UsersModule ]
 })
-export class ApplicationModule {
-
-    configure(consumer: MiddlewaresConsumer) {
-        consumer
-            .apply(EnsureLoggedIn)
-            .forRoutes({
-                path: 'user',
-                method: RequestMethod.ALL
-            })
-    }
-}
+export class ApplicationModule { }
