@@ -26,10 +26,4 @@ export class UsersController {
         const msg = await this.usersService.addUser(user)
         res.status(HttpStatus.OK).json(msg);
     }
-
-    @Get('/checkUser/:name')
-    async checkUser(@Response() res, @Body('name') name) {
-        const user = await this.usersService.checkUser(name)
-        res.status(HttpStatus.OK).json(user)
-    }
 }

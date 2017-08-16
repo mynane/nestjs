@@ -5,7 +5,7 @@ import { AuthMiddleware } from './user.middleware';
 
 @Module({
     controllers: [ UsersController ],
-    components: [ UsersService ]
+    components: [ UsersService ],
 })
 export class UsersModule {
     configure(consumer: MiddlewaresConsumer) {
