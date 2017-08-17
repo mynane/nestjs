@@ -9,10 +9,11 @@
     "start": "nodemon -w *.*.ts --exec ts-node ./src/main.ts"
   },
   "dependencies": {
-    "@nestjs/common": "~2.*",
-    "@nestjs/core": "~2.*",
-    "@nestjs/microservices": "~2.*",
-    "@nestjs/websockets": "~2.*",
+    "@nestjs/common": "*",
+    "@nestjs/core": "*",
+    "@nestjs/microservices": "*",
+    "@nestjs/testing": "*",
+    "@nestjs/websockets": "*",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.2",

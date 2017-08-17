@@ -1,7 +1,11 @@
-import { Module, MiddlewaresConsumer, RequestMethod } from '@nestjs/common';
+import {
+    Module, MiddlewaresConsumer, RequestMethod,
+    Shared
+} from '@nestjs/common';
 import { CheckController } from './check.controller';
 import { CheckService } from './check.service';
 
+@Shared()
 @Module({
   controllers: [ CheckController ],
   components: [ CheckService ],

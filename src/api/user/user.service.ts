@@ -2,7 +2,7 @@ import { Component } from "@nestjs/common";
 import { HttpException } from '@nestjs/core';
 import * as _ from 'lodash';
 import { UsersModel } from '../../model';
-import CommonService from '../../common/common.service'
+import CommonService from '../../common/common.service';
 
 @Component()
 export class UsersService {
@@ -44,6 +44,6 @@ export class UsersService {
             }
             return doc;
         })
-        return CommonService.commonResponse(result);
+        return CommonService.commonResponse({id: result._id});
     }
 }
