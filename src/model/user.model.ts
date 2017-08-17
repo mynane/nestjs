@@ -1,3 +1,10 @@
+/**
+ * @file user.model.ts
+ * @author shijh
+ *
+ * 用户Schema
+ */
+
 import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
