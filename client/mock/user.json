@@ -1,0 +1,10 @@
+{
+    "code": 401,
+    "data": {
+        "name": "denglingbo",
+        "age": "12",
+        "level": 5,
+        "city": "Chengdu",
+        "admin": 1
+    }
+}
