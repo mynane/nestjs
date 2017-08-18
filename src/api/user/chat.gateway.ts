@@ -15,6 +15,7 @@ export class ChatGateway implements OnGatewayInit, OnGatewayConnection {
     public afterInit(server) {}
     public handleConnection(client) {
         client.emit('init', {message: '链接完成'})
+        require('./user.soket').register(client);
     }
 
     @SubscribeMessage('event')

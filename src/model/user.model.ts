@@ -31,4 +31,8 @@ const UserSchema = new Schema({
     style: {type: String}
 });
 
+UserSchema.pre('save', (next) => {
+    next();
+})
+
 export default mongoose.model('Users', UserSchema);

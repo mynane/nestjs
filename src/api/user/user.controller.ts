@@ -3,6 +3,7 @@ import {
     Response, Param, Body,
     HttpStatus, UseFilters, UsePipes
 } from '@nestjs/common';
+import { HttpException } from '@nestjs/core';
 import { UsersService } from './user.service';
 import { CheckService } from '../check/check.service';
 import { ChatGateway } from './chat.gateway';
@@ -13,9 +14,9 @@ import { CustomPipe } from './user.pipe';
 @Controller('users')
 export class UsersController {
     constructor(
-        private usersService: UsersService,
-        // private checkService: CheckService
-    ) {}
+        private usersService: UsersService
+    ) {
+    }
 
     @Get()
     async getAllUsers(@Response() res) {
@@ -29,14 +30,21 @@ export class UsersController {
         const user = await this.usersService.getUser(id)
         res.status(HttpStatus.OK).json(user);
     }
-    // @UsePipes(new CustomPipe())
 
     @Post()
     @UsePipes(new CustomPipe())
-    async addUser(@Response() res, @Body('user') user) {
-        // const name = await this.checkService.checkUser(user.userName);
-        // console.log(name);
-        const msg = await this.usersService.addUser(user)
+    async addUser(@Response() res, @Body() body) {
+        const { userName, password, ...params } = body;
+        const user = await new CheckService().checkUser(userName);
+        console
+        if (user.data.length) {
+            throw new HttpException({
+                code: 500,
+                message: '用户名已经存在',
+                data: []
+            }, 200);
+        }
+        const msg = await this.usersService.addUser(body)
         res.status(HttpStatus.OK).json(msg);
     }
 }
