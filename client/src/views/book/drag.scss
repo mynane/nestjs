@@ -1,0 +1,96 @@
+// 边框颜色
+$borderColor: #999;
+// 边框focus颜色
+$borderFocus: #e2f;
+// dot 大小
+$size: 6px;
+
+.drag {
+    position: relative;
+    display: inline-block;
+    border: 1px solid transparent;
+    z-index: 1;
+}
+
+.drag-click {
+    border: 1px dashed $borderFocus;
+    position: absolute;
+    z-index: 10000;
+    .drag-dot {
+        border: 1px solid $borderColor;
+        width: $size;
+        height: $size;
+        background: #fff;
+        border: 1px solid #000;
+        box-sizing: content-box;
+        z-index: 2;
+        position: absolute;
+        pointer-events: all;
+    }
+
+    .drag-l {
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .drag-lt {
+        transform: translate(-50%, -50%);
+    }
+
+    .drag-t {
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .drag-tr {
+        right: 0;
+        transform: translate(50%, -50%);
+    }
+
+    .drag-r {
+        right: 0;
+        top: 50%;
+        transform: translate(50%, -50%);
+    }
+
+    .drag-rb {
+        right: 0;
+        bottom: 0;
+        transform: translate(50%, 50%);
+    }
+
+    .drag-b {
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, 50%);
+    }
+
+    .drag-bl {
+        bottom: 0;
+        transform: translate(-50%, 50%);
+    }
+
+    .drag-l, .drag-r {
+        &:hover {
+            cursor: e-resize;
+        }
+    }
+
+    .drag-tr, .drag-bl {
+        &:hover {
+            cursor: ne-resize;
+        }
+    }
+
+    .drag-t, .drag-b {
+        &:hover {
+            cursor: n-resize;
+        }
+    }
+
+    .drag-lt, .drag-rb {
+        &:hover {
+            cursor: nw-resize;
+        }
+    }
+}

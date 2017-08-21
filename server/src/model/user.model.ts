@@ -31,8 +31,10 @@ const UserSchema = new Schema({
     style: {type: String}
 });
 
-UserSchema.pre('save', (next) => {
-    next();
-})
+UserSchema.pre('save', function (next) {
+        console.log(next)
+        next()
+        // onSave(socket, doc);
+    });
 
 export default mongoose.model('Users', UserSchema);

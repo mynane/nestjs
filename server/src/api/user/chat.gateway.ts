@@ -12,10 +12,10 @@ import { ChatMiddleware } from './chat.middleware';
 export class ChatGateway implements OnGatewayInit, OnGatewayConnection {
     @WebSocketServer() private server;
 
-    public afterInit(server) {}
+    public afterInit(server) { }
+
     public handleConnection(client) {
         client.emit('init', {message: '链接完成'})
-        require('./user.soket').register(client);
     }
 
     @SubscribeMessage('event')

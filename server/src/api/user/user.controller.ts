@@ -15,8 +15,7 @@ import { CustomPipe } from './user.pipe';
 export class UsersController {
     constructor(
         private usersService: UsersService
-    ) {
-    }
+    ) { }
 
     @Get()
     async getAllUsers(@Response() res) {

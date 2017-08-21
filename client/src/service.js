@@ -15,7 +15,7 @@ import { get, post } from './util/request';
 
 export const login = () => get('/login');
 
-export const fetchUser = () => get('/api/users');
+export const fetchUser = () => get('/users');
 
 export const fetchSider = () => get('/sider');
 

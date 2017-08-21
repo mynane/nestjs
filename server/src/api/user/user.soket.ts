@@ -4,9 +4,7 @@ exports.register = function (socket) {
     UsersModel.schema.pre('save', (doc) => {
         console.log(doc)
     })
-    onSave(socket, {message: 'err'});
     UsersModel.schema.post('save', function (doc) {
-        console.log(doc)
         onSave(socket, doc);
     });
     UsersModel.schema.post('remove', function (doc) {
