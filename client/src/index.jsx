@@ -14,10 +14,10 @@ import store from 'freed-spa/lib/store';
 /**
  * 启动 App
  */
-const startApp = () => {
+const startApp = (data) => {
     ReactDOM.render(
         <FrameApp asyncReducers={reducers}>
-            <App />
+            <App initData={data} />
         </FrameApp>,
         document.getElementById('root')
     );
@@ -27,10 +27,6 @@ const startApp = () => {
  * 首先检查该用户是否 401
  */
 checkUser()
-    .then(() => {
-        store.dispatch(receiveLogin());
-        startApp();
+    .then((data) => {
+        startApp(data);
     })
-    .catch(() => {
-        startApp();
-    });

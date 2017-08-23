@@ -13,6 +13,7 @@ import AuthLayout from './common/layout/AuthLayout';
 import LoginLayout from './views/login/LoginLayout';
 import { checkUser } from './actions/user';
 import './style/common.scss';
+import Edit from './views/edit';
 
 @connect(
     state => ({
@@ -46,15 +47,9 @@ class App extends PureComponent {
     }
 
     render() {
-        const { user } = this.props;
-
+        const { initData } = this.props;
         return (
-            <Layout>
-                {user.isAuth ?
-                    <AuthLayout /> :
-                    <LoginLayout />
-                }
-            </Layout>
+            <Edit initData={initData} />
         );
     }
 }

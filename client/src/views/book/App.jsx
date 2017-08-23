@@ -42,21 +42,21 @@ class App extends PureComponent {
     }
 
     componentDidMount() {
-        this.socket = io.connect('http://localhost:2000/hazer');
-        this.socket.emit('event', {message: '123'})
-        this.socket.on('event:add', (data) => {
-            this.setState({
-                arr: data
-            })
-        })
+        // this.socket = io.connect('http://localhost:2000/hazer');
+        // this.socket.emit('event', {message: '123'})
+        // this.socket.on('event:add', (data) => {
+        //     this.setState({
+        //         arr: data
+        //     })
+        // })
 
-        this.socket.on('init', (data) => {
-            console.log(data)
-        })
+        // this.socket.on('init', (data) => {
+        //     console.log(data)
+        // })
 
-        this.socket.on('thing:save', (doc) => {
-            console.log(doc);
-        })
+        // this.socket.on('thing:save', (doc) => {
+        //     console.log(doc);
+        // })
     }
 
     handleShowModal(e) {
@@ -84,10 +84,27 @@ class App extends PureComponent {
                 <div>books {user.data.name}</div>
                 <span onClick={this.handleClick}>{arr.message}</span>
                 <div style={{'height': '1000px', 'marginLeft': '40px'}}>
-                    {/* <Editor /> */}
-                    <Drag>
-                        <img src="http://img0.imgtn.bdimg.com/it/u=2705523998,1431957994&fm=200&gp=0.jpg" />
-                    </Drag>
+                    <div
+                        className={'centent-wrap'}
+                        style={{
+                            position: 'relative',
+                            height: '100%',
+                            width: '100%'
+                        }}
+                    >
+                        <Drag>
+                            <img src="http://img0.imgtn.bdimg.com/it/u=2705523998,1431957994&fm=200&gp=0.jpg" />
+                        </Drag>
+
+                        <Drag style={{left: '400px'}}>
+                            <img src="http://img0.imgtn.bdimg.com/it/u=2705523998,1431957994&fm=200&gp=0.jpg" />
+                        </Drag>
+
+                        <Drag style={{left: '500px'}}>
+                            <div>我是一段文字</div>
+                        </Drag>
+                    </div>
+                    
                 </div>
             </div>
         )

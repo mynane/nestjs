@@ -15,7 +15,7 @@ import { get, post } from './util/request';
 
 export const login = () => get('/login');
 
-export const fetchUser = () => get('/users');
+export const fetchUser = () => get('/api/page/query/599d23fe4401717c6c790207');
 
 export const fetchSider = () => get('/sider');
 

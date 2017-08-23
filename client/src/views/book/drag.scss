@@ -10,12 +10,20 @@ $size: 6px;
     display: inline-block;
     border: 1px solid transparent;
     z-index: 1;
+    position: absolute;
+    top: 100px;
+    left: 100px;
 }
 
 .drag-click {
     border: 1px dashed $borderFocus;
     position: absolute;
     z-index: 10000;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+
     .drag-dot {
         border: 1px solid $borderColor;
         width: $size;

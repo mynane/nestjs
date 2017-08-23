@@ -35,7 +35,6 @@ export class UsersController {
     async addUser(@Response() res, @Body() body) {
         const { userName, password, ...params } = body;
         const user = await new CheckService().checkUser(userName);
-        console
         if (user.data.length) {
             throw new HttpException({
                 code: 500,

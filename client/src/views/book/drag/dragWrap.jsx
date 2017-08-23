@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import addEventListener from './util/addEventListener';
-import mousePosition from './util/getPointerPosition';
-import throttle from './util/throttle';
+import addEventListener from '../util/addEventListener';
+import mousePosition from '../util/getPointerPosition';
+import throttle from '../util/throttle';
 
 const dots = ['l', 'lt', 't', 'tr', 'r', 'rb', 'b', 'bl'];
 
@@ -29,12 +29,7 @@ class DragWrap extends Component {
         })
     }
 
-    handleDotMove = (e) => {
-        console.log(e)
-    }
-
     handleDotUp = (e) => {
-        const direction = e.target.getAttribute('data-direction');
         this.mouseMove.remove();
     }
 
