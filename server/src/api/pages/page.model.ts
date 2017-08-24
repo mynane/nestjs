@@ -25,7 +25,15 @@ const PageSchema = new Schema({
     // 是否为fork, 默认false
     fork: { type: Boolean, default: false },
     // forkId
-    forkId: [{ type:  Schema.Types.ObjectId, ref: 'Users' }],
+    forkId: { type:  Schema.Types.ObjectId },
+    // forkNumber fork数
+    forkNum: { type: Number, default: 0 },
+    // 父元素id
+    parentId: { type: Schema.Types.ObjectId },
+    // good 点赞数
+    good: { type: Number, default: 0 },
+    // bad 差评数
+    bad: { type: Number, default: 0 },
     // fork时间
     forkTime: { type: Date, default: Date.now },
 });

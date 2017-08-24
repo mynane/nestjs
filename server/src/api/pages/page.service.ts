@@ -5,6 +5,8 @@ import * as LZString from 'lz-string';
 import PageModel from './page.model';
 import CommonService from '../../common/common.service';
 import Utils from '../../common/utils';
+import { ForkService } from '../';
+const forkService = new ForkService();
 
 @Component()
 export class PageService {
@@ -74,6 +76,52 @@ export class PageService {
     }
 
     /**
+     * fork 页面
+     * @param id pageId
+     */
+    async updateFork(userId, pageId, title) {
+        const page = await PageModel.findById(pageId, (err, doc) => {
+            if (err) {
+                throw new HttpException('系统错误', 500);
+            }
+            return doc
+        });
+
+        const {
+            _id, forkId, owerUser, forkTime,
+            fork, createUser, createTime, content
+        } = page;
+
+        let result = {
+            _id: forkId
+        };
+
+        if (forkId) {
+            await forkService.update(
+                { page: pageId },
+                { $addToSet: { forkUser: { userId }},
+            })
+        } else {
+            result = await forkService.add({
+                page: pageId,
+                forkUser: [{ userId }]
+            })
+        }
+        await PageModel.findByIdAndUpdate(pageId, {$inc: {forkNum: 1}, forkId: result._id});
+
+        return this.addPage({
+            owerUser: userId,
+            parentId: pageId,
+            forkNum: 0,
+            fork: true,
+            createUser,
+            title,
+            content,
+            createTime,
+        })
+    }
+
+    /**
      * 通过id跟新页面
      * @param id {ObectId} 页面id
      * @param page {Object} 页面数据
@@ -95,9 +143,9 @@ export class PageService {
      */
     async addPage(page) {
         const { content, ...param } = page;
-        console.log(param)
+        const parse = (content instanceof Object) ? LZString.compressToBase64(JSON.stringify(content)) : content
         const result = await PageModel.create({
-            content: LZString.compressToBase64(JSON.stringify(content)),
+            content: parse,
             ...param
         }, (err, doc) => {
             if (err) {

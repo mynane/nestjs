@@ -29,6 +29,14 @@ export class PageController {
         res.status(HttpStatus.OK).json(pages);
     }
 
+    @Post('/update/fork')
+    async updateFork(@Request() req, @Response() res, @Body() body) {
+        const { id, title } = body;
+        const { user } = req.session;
+        const result = await this.pageService.updateFork(user._id, id, title);
+        res.status(HttpStatus.OK).json(result);
+    }
+
     @Post('/update')
     async updatePage(@Response() res, @Body() body) {
         const { id, page } = body;

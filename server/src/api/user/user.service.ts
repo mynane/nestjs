@@ -34,6 +34,21 @@ export class UsersService {
     }
 
     /**
+     * 登录接口
+     * @param param {Object} 登录参数
+     */
+    async login(param) {
+        const { userName } = param;
+        const result = await UsersModel.findOne({userName}, (err, doc) => {
+            if (err) {
+                throw new HttpException('系统错误', 500);
+            }
+            return doc;
+        })
+        return result;
+    }
+
+    /**
      * 新增用户
      * @param {Object} user 新增用户信息 
      */

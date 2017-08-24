@@ -19,15 +19,14 @@ mongoose.connect(config.mongo.uri, config.mongo.options);
 mongoose.connection.on('error', function(err) {
 	console.error('MongoDB connection error: ' + err);
 	process.exit(-1);
-	}
-);
+});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
-app.use(cookieParser());
+app.use(cookieParser('static-page'));
 app.use(session({
-    secret: 'shhhhhhhhh',
+    secret: 'static-page',
     resave: true,
     saveUninitialized: true
 }));
