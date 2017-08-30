@@ -6,7 +6,11 @@
   "author": "cdiaz",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon -w *.*.ts --exec ts-node ./src/main.ts"
+    "start": "cross-env NODE_ENV=development nodemon -w *.*.ts --exec ts-node ./src/main.ts",
+    "dev": "cross-env NODE_ENV=test nodemon -w *.*.ts --exec ts-node ./src/main.ts",
+    "test": "mocha src/__test__/**/*.test.ts src/api/**/*.test.ts",
+    "test_cover": "istanbul cover node_modules/mocha/bin/_mocha src/api/**/*.test.ts",
+    "docs": "documentation build api/**/*.*.ts --format md --github -o ./docs/api/image.md"
   },
   "dependencies": {
     "@nestjs/common": "*",
@@ -23,6 +27,7 @@
     "lodash": "^4.17.4",
     "lz-string": "^1.4.4",
     "mongoose": "^4.11.7",
+    "node-uuid": "^1.4.8",
     "passport": "^0.3.0",
     "passport-auth0": "^0.6.0",
     "pug": "~2.0.0-beta3",
@@ -32,7 +37,12 @@
   },
   "devDependencies": {
     "@types/node": "^7.0.18",
+    "cross-env": "^5.0.5",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.5.0",
     "nodemon": "^1.11.0",
+    "should": "^12.0.0",
+    "supertest": "^3.0.0",
     "ts-node": "^3.0.2",
     "typescript": "^2.2.2"
   }

@@ -8,6 +8,9 @@ import * as LZString from 'lz-string';
 
 export default class Utils {
     static parseContent(data) {
+        if (!data) {
+            return {};
+        }
         if (data instanceof Array) {
             return data.map((item) => {
                 const { content, _id, title } = item;

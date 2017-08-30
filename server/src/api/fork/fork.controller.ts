@@ -14,7 +14,7 @@ export class ForkController {
     @Get()
     async getFork(@Request() req, @Response() res) {
         const result = await this.forkService.getFork(req.query, 'forkUser.userId');
-        res.status(HttpStatus.OK).json(result);
+        res.status(HttpStatus.OK).json(CommonService.commonResponse(result));
     }
     
     @Post('/add')
@@ -22,9 +22,9 @@ export class ForkController {
         const { pageId, userId = '599430c0ab29321dacded426' } = body;
         const result = await this.forkService.add({
             page: pageId,
-            forkUser: [{ userId: '599430c0ab29321dacded426' }]
+            forkUser: [{ userId }]
         })
-        res.status(HttpStatus.OK).json(result);
+        res.status(HttpStatus.OK).json(CommonService.commonResponse(result));
     }
 
     @Post('/update')
@@ -35,7 +35,6 @@ export class ForkController {
         }, {
             $addToSet: { forkUser: { userId } }
         })
-        res.status(HttpStatus.OK).json(result);
+        res.status(HttpStatus.OK).json(CommonService.commonResponse(result));
     }
 }
-

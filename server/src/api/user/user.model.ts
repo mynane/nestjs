@@ -29,12 +29,8 @@ const UserSchema = new Schema({
     userType: {type: String},
     // ?
     style: {type: String}
+}, {
+    versionKey: false
 });
-
-UserSchema.pre('save', function (next) {
-        console.log(next)
-        next()
-        // onSave(socket, doc);
-    });
 
 export default mongoose.model('Users', UserSchema);

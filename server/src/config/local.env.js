@@ -9,5 +9,7 @@ module.exports = {
   DOMAIN: 'http://localhost:9000',
   SESSION_SECRET: "nodemongo-secret",
   // Control debug level for modules using visionmedia/debug
-  DEBUG: ''
+  DEBUG: '',
+  // 过期时间
+  expiresIn: 1000 * 60 * 60 * 24 // 24小时过期
 };

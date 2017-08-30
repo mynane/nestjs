@@ -18,10 +18,10 @@ export class AuthMiddleware implements NestMiddleware {
 
     resolve() {
         return async (req, res, next) => {
-            const { user = { _id: '' } } = req.session;
-            if (user._id) {
-                throw new HttpException(CommonService.notFoundResponse(), 401);
-            }
+            // const { user = { _id: '' } } = req.session;
+            // if (user._id) {
+            //     throw new HttpException(CommonService.notFoundResponse(), 401);
+            // }
             next();
         }
     }

@@ -4,9 +4,9 @@ import * as _ from 'lodash';
 import * as LZString from 'lz-string';
 import PageModel from './page.model';
 import CommonService from '../../common/common.service';
-import Utils from '../../common/utils';
-import { ForkService } from '../';
+import { ForkService, ShareService } from '../';
 const forkService = new ForkService();
+const shareService = new ShareService();
 
 @Component()
 export class PageService {
@@ -14,14 +14,14 @@ export class PageService {
      * 获取某个页面
      * @param id {ObjectId} 页面id
      */
-    async getPage(id) {
-        const result = await PageModel.findById(id, {__v: 0}, (err, doc) => {
+    async getPage(id, ig = {}) {
+        const result = await PageModel.findById(id, ig, (err, doc) => {
             if (err) {
                 throw new HttpException('系统错误', 500);
             }
             return doc;
         })
-        return CommonService.commonResponse(Utils.parseContent(result));
+        return result;
     }
 
     /**
@@ -29,20 +29,24 @@ export class PageService {
      * @param id {ObjectId} 页面id
      */
     async removePage(id) {
-        const result = await PageModel.remove({_id: id}, (err) => {
-            if (err) {
-                throw new HttpException('系统错误', 500);
-            }
-            return 'ok';
+        return await Promise.all([
+            PageModel.remove({_id: id}, (err) => {
+                if (err) {
+                    throw new HttpException('系统错误', 500);
+                }
+                return {};
+            }),
+            shareService.delete({page: id})
+        ]).then((param) => {
+            return {}
         })
-        return CommonService.commonResponse(result);
     }
 
     /**
      * 分级查询
      * @param param 分页查询（通过title模糊查询）
      */
-    async pagingQuery(param) {
+    async pagingQuery(param, query) {
         const {
             page = 1, pageSize = 10, populate = '',
             title = '', sortParams = { createTime: -1 }
@@ -51,11 +55,11 @@ export class PageService {
         const start = (page - 1) * pageSize;
 
         const result = await Promise.all([
-            PageModel.count({"title": {$regex: title, $options:'i'}}).exec((err, count) => {
+            PageModel.count(query).exec((err, count) => {
                 return count;
             }),
             PageModel
-                .find({"title": {$regex: title, $options:'i'}}, {content: 0, __v: 0})
+                .find(query, {content: 0, __v: 0})
                 .skip(start)
                 .limit(pageSize * 1)
                 .populate('forkId', {password: 0})
@@ -67,12 +71,12 @@ export class PageService {
                 }
             )
         ])
-        return CommonService.commonResponse({
+        return {
             lists: result[1],
             total: result[0],
             pageSize,
             page
-        });
+        };
     }
 
     /**
@@ -92,6 +96,19 @@ export class PageService {
             fork, createUser, createTime, content
         } = page;
 
+       const pageDta = await this.addPage({
+            owerUser: userId,
+            parentId: pageId,
+            forkNum: 0,
+            fork: true,
+            createUser,
+            title,
+            body: {
+                content: content ? content : {},
+            },
+            createTime,
+        })
+
         let result = {
             _id: forkId
         };
@@ -99,26 +116,18 @@ export class PageService {
         if (forkId) {
             await forkService.update(
                 { page: pageId },
-                { $addToSet: { forkUser: { userId }},
+                {
+                    $addToSet: { forkUser: { userId, newPage: pageDta.data.id }
+                },
             })
         } else {
             result = await forkService.add({
                 page: pageId,
-                forkUser: [{ userId }]
+                forkUser: [{ userId, newPage: pageDta.data.id }]
             })
         }
         await PageModel.findByIdAndUpdate(pageId, {$inc: {forkNum: 1}, forkId: result._id});
-
-        return this.addPage({
-            owerUser: userId,
-            parentId: pageId,
-            forkNum: 0,
-            fork: true,
-            createUser,
-            title,
-            content,
-            createTime,
-        })
+        return pageDta;
     }
 
     /**
@@ -138,15 +147,45 @@ export class PageService {
     }
 
     /**
+     * 更新页面
+     * @param id {ObjectId} 页面id
+     * @param param {Object} 需要修改的值
+     */
+    async update(id, param) {
+        const result = await PageModel.findByIdAndUpdate(id, param, (err, doc) => {
+            if (err) {
+                throw new HttpException('系统错误', 500);
+            }
+            return doc;
+        })
+        return result;
+    }
+
+    /**
+     * 分享页面给指定用户
+     * @param param {Onject} 分享参数
+     */
+    async share(param) {
+        const { userId, pageId } = param;
+        const result = await shareService.add({
+            user: userId,
+            page: pageId
+        })
+        return CommonService.commonResponse(result);
+    }
+
+    /**
      * 新增页面
      * @param {Object} page 页面信息
      */
     async addPage(page) {
-        const { content, ...param } = page;
-        const parse = (content instanceof Object) ? LZString.compressToBase64(JSON.stringify(content)) : content
+        const { body, ...param } = page;
+        const { content, ...props } = body;
+        const parse = (content instanceof Object) ? LZString.compressToBase64(JSON.stringify(content)) : content;
         const result = await PageModel.create({
-            content: parse,
-            ...param
+            ...param,
+            ...props,
+            content: parse
         }, (err, doc) => {
             if (err) {
                 throw new HttpException('系统错误', 500);

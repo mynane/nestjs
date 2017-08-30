@@ -36,6 +36,10 @@ const PageSchema = new Schema({
     bad: { type: Number, default: 0 },
     // fork时间
     forkTime: { type: Date, default: Date.now },
+    // 是否发布
+    publish: { type: Boolean, default: false }
+}, {
+    versionKey: false
 });
 
 export default mongoose.model('Pages', PageSchema);

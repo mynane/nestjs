@@ -1,8 +1,7 @@
 import { Component } from "@nestjs/common";
 import { HttpException } from '@nestjs/core';
 import * as _ from 'lodash';
-import { UsersModel } from '../../model';
-import CommonService from '../../common/common.service';
+import UsersModel from './user.model';
 
 @Component()
 export class UsersService {
@@ -10,27 +9,27 @@ export class UsersService {
      * 查询全部用户
      */
     async getAllUsers() {
-        const result = await UsersModel.find({}, {"__v": 0}, (err, doc) => {
+        const result = await UsersModel.find({}, {password: 0}, (err, doc) => {
             if (err) {
                 throw new HttpException('系统错误', 500);
             }
             return doc;
         })
-        return CommonService.commonResponse(result);
+        return result;
     }
 
     /**
      * 查询指定id
      * @param {string} id 用户id 
      */
-    async getUser(id: string) {
-        const result = await UsersModel.findById(id, {"__v": 0}, (err, doc) => {
+    async getUser(param) {
+        const result = await UsersModel.findOne(param, {password: 0}, (err, doc) => {
             if (err) {
                 throw new HttpException('系统错误', 500);
             }
             return doc;
         })
-        return CommonService.commonResponse(result);
+        return result;
     }
 
     /**
@@ -59,6 +58,6 @@ export class UsersService {
             }
             return doc;
         })
-        return CommonService.commonResponse({id: result._id});
+        return {id: result._id};
     }
 }

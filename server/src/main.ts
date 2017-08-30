@@ -31,6 +31,29 @@ app.use(session({
     saveUninitialized: true
 }));
 
+if (process.env.NODE_ENV === 'development') {
+    app.all('*', function(req, res, next) {
+        req.session.user = { _id: '59942d2875a68fc803215fab',
+            userName: 'shijh',
+            password: '12qwaszx',
+            userDspName: 'huazaierli',
+            phone: 18381333613,
+            email: '755836844@qq.com',
+            __v: 0,
+            activity: true,
+            birthday: '2017-08-16T11:31:52.192Z',
+            sex: 1
+        }
+        res.header("Access-Control-Allow-Origin", "*");  
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.header("Access-Control-Allow-Credentials", "true");
+        res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");  
+        res.header("X-Powered-By",' 3.2.1')  
+        res.header("Content-Type", "application/json;charset=utf-8");  
+        next();
+    });
+}
+
 const nest = NestFactory.create(ApplicationModule, app);
 nest.setGlobalPrefix('api');
 

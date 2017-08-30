@@ -16,9 +16,12 @@ const ForkSchema = new Schema({
     forkUser: [
         {
             userId: { type: Schema.Types.ObjectId, ref: 'Users' },
-            forkTime: { type: Date, default: Date.now }
+            forkTime: { type: Date, default: Date.now },
+            newPage: { type: Schema.Types.ObjectId, ref: 'Pages' }
         }
     ]
+}, {
+    versionKey: false
 })
 
 export default mongoose.model('Forks', ForkSchema);

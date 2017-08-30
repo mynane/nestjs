@@ -12,7 +12,7 @@ import ForkModel from './fork.model';
 @Component() 
 export class ForkService {
     async getFork(param, populate = '') {
-        return await ForkModel.find(param, {__v: 0, 'forkUser._id': 0})
+        return await ForkModel.find(param, {'forkUser._id': 0})
             .populate(populate, {_id: 1, userDspName: 1, userName: 1})
             .exec((err, doc) => {
                 if (err) {
