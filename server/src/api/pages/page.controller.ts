@@ -102,6 +102,7 @@ export class PageController {
     @Post()
     async addPage(@Request() req, @Response() res, @Body() body) {
         const { user } = req.session;
+        console.log(body)
         const result = await this.service.addPage({
             body,
             createUser: user._id,

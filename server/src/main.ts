@@ -55,6 +55,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const nest = NestFactory.create(ApplicationModule, app);
+// 设置全局前缀
 nest.setGlobalPrefix('api');
 
 nest.listen(config.port || 3000, () => {

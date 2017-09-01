@@ -44,6 +44,14 @@ var all = {
     }
   },
 
+  // 邮箱地址 'laolaya@126.com'
+  emailAddress: 'jikequan@163.com',
+
+  // 邮箱密码
+  emailPassword: 'abc369188',
+
+  // 邮箱类型 'smtp.126.com'
+  emailHost: 'smtp.163.com',
 };
 
 // Export the config object based on the NODE_ENV

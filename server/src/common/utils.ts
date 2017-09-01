@@ -17,7 +17,7 @@ export default class Utils {
                 return {
                     _id,
                     title,
-                    content: JSON.parse(LZString.decompressFromBase64(content))
+                    content: JSON.parse(LZString.decompressFromBase64(content || ''))
                 }
             })
         } else {
@@ -25,7 +25,7 @@ export default class Utils {
             return {
                 _id,
                 title,
-                content: JSON.parse(LZString.decompressFromBase64(content))
+                content: JSON.parse(LZString.decompressFromBase64(content || ''))
             }
         }
     }
